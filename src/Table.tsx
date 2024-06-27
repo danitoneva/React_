@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { IArg0 } from "./App";
+import { INewData } from "./Interface";
 
 interface TableProps{
-  campaigns: IArg0[]
+  campaigns: INewData[];
 }
 
 export const Table = ({ campaigns } : TableProps) => {
@@ -18,7 +18,7 @@ export const Table = ({ campaigns } : TableProps) => {
         </tr>
       </thead>
       <tbody>
-        {campaigns.map((campaign: { name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; game: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; startDate: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; budget: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; language: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }, index: React.Key | null | undefined) => (
+        {campaigns.map((campaign, index) => (
           <tr key={index}>
             <td>{campaign.name}</td>
             <td>{campaign.game}</td>

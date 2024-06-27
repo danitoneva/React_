@@ -2,19 +2,12 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { Form } from "./Form";
 import {Table} from "./Table";
-
-export interface IArg0 {
-  name: string;
-  game: string;
-  startDate: string;
-  budget: string;
-  language: string;
-}
+import { INewData } from "./Interface";
 
 export default function App() {
-  const [campaigns, setCampaigns] = useState<IArg0[]>([]);
+  const [campaigns, setCampaigns] = useState<INewData[]>([]);
 
-  const addCampaign = (newCampaign: IArg0) => {
+  const addCampaign = (newCampaign: INewData) => {
     setCampaigns([...campaigns, newCampaign]);
   };
 

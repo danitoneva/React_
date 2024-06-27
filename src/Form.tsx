@@ -1,17 +1,5 @@
 import React, { useState } from "react";
 
-interface CampaignType {
-  name: string;
-  description: string;
-  game: string;
-  otherGame?: string;
-  startDate: Date;
-  endDate: Date;
-  budget: number;
-  crypto: boolean;
-  language: string;
-}
-
 export const Form = ({
   addCampaign
 } : {
