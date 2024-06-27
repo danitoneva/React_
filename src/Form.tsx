@@ -1,6 +1,28 @@
 import React, { useState } from "react";
 
-export function Form({ addCampaign }) {
+interface CampaignType {
+  name: string;
+  description: string;
+  game: string;
+  otherGame?: string;
+  startDate: Date;
+  endDate: Date;
+  budget: number;
+  crypto: boolean;
+  language: string;
+}
+
+export const Form = ({
+  addCampaign
+} : {
+  addCampaign: (arg0: {
+    name: string;
+    game: string;
+    startDate: string;
+    budget: string;
+    language: string;
+  }) => void
+}) => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -13,14 +35,16 @@ export function Form({ addCampaign }) {
     language: "English",
   });
 
-  const handleChange = (event) => {
-    setFormData(() => ({
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setFormData((formData) => ({
       ...formData,
       [event.target.name]: event.target.value,
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     const newCampaign = {
       name: formData.name,
@@ -31,7 +55,6 @@ export function Form({ addCampaign }) {
     };
 
     addCampaign(newCampaign);
-
     setFormData({
       name: "",
       description: "",
@@ -48,7 +71,7 @@ export function Form({ addCampaign }) {
   return (
     <form onSubmit={handleSubmit}>
       <div className="inputContent">
-        <lable>Campaign name (up to 20 characters)</lable>
+        <label>Campaign name (up to 20 characters)</label>
         <input
           name="name"
           maxLength={20}
@@ -56,7 +79,7 @@ export function Form({ addCampaign }) {
           value={formData.name}
           required
         />
-        <lable>Campaign description (up to 200 characters)</lable>
+        <label>Campaign description (up to 200 characters)</label>
         <input
           name="description"
           maxLength={200}
@@ -64,7 +87,7 @@ export function Form({ addCampaign }) {
           value={formData.description}
           required
         />
-        <lable>Campaing Game</lable>
+        <label>Campaing Game</label>
         <select
           name="game"
           onChange={handleChange}
@@ -79,18 +102,17 @@ export function Form({ addCampaign }) {
           <option value="Other">Other</option>
         </select>
         {formData.game === "Other" && (
-          <lable className="inputContent">
-            Other game
+          <label id="otherGame" className={formData.game === "Other" ? "" : "hidden"}>
+            Other game 
             <input
               name="otherGame"
               onChange={handleChange}
               value={formData.otherGame}
-              display="none"
               required
             />
-          </lable>
+          </label>
         )}
-        <lable>Start date</lable>
+        <label>Start date</label>
         <input
           type="date"
           name="startDate"
@@ -98,7 +120,7 @@ export function Form({ addCampaign }) {
           value={formData.startDate}
           required
         />
-        <lable>End date</lable>
+        <label>End date</label>
         <input
           type="date"
           name="endDate"
@@ -106,7 +128,7 @@ export function Form({ addCampaign }) {
           value={formData.endDate}
           required
         />
-        <lable>Campaign budget(up tp 10 000 dollars)</lable>
+        <label>Campaign budget(up tp 10 000 dollars)</label>
         <input
           type="number"
           name="budget"
@@ -116,14 +138,14 @@ export function Form({ addCampaign }) {
           value={formData.budget}
           required
         />
-        <lable>Can the campaign be paid with Crypto currency?</lable>
+        <label>Can the campaign be paid with Crypto currency?</label>
         <input
           type="checkbox"
           name="crypto"
           onChange={handleChange}
           value={formData.crypto}
         />
-        <lable>Language</lable>
+        <label>Language</label>
         <select
           name="language"
           onChange={handleChange}
@@ -142,5 +164,3 @@ export function Form({ addCampaign }) {
     </form>
   );
 }
-
-export default Form;
