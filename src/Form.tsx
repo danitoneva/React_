@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import { FormControlLabel, Checkbox, FormGroup } from "@mui/material";
 
 export const Form = ({
-  addCampaign
-} : {
+  addCampaign,
+}: {
   addCampaign: (arg0: {
     name: string;
     game: string;
     startDate: string;
     budget: string;
     language: string;
-  }) => void
+  }) => void;
 }) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -19,7 +22,7 @@ export const Form = ({
     startDate: "",
     endDate: "",
     budget: "",
-    crypto: "",
+    crypto: false,
     language: "English",
   });
 
@@ -30,6 +33,12 @@ export const Form = ({
       ...formData,
       [event.target.name]: event.target.value,
     }));
+  };
+
+  const handleChangeCheck = (event: {
+    target: { name: any; checked: any };
+  }) => {
+    setFormData({ ...formData, [event.target.name]: event.target.checked });
   };
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
@@ -51,14 +60,19 @@ export const Form = ({
       startDate: "",
       endDate: "",
       budget: "",
-      crypto: "",
+      crypto: false,
       language: "English",
     });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="inputContent">
+    <form onSubmit={handleSubmit} className="inputContent">
+      <Stack
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        sx={{ mb: 10 }}
+      >
         <label>Campaign name (up to 20 characters)</label>
         <input
           name="name"
@@ -90,8 +104,11 @@ export const Form = ({
           <option value="Other">Other</option>
         </select>
         {formData.game === "Other" && (
-          <label id="otherGame" className={formData.game === "Other" ? "" : "hidden"}>
-            Other game 
+          <label
+            id="otherGame"
+            className={formData.game === "Other" ? "" : "hidden"}
+          >
+            Other game
             <input
               name="otherGame"
               onChange={handleChange}
@@ -126,13 +143,20 @@ export const Form = ({
           value={formData.budget}
           required
         />
-        <label>Can the campaign be paid with Crypto currency?</label>
-        <input
-          type="checkbox"
-          name="crypto"
-          onChange={handleChange}
-          value={formData.crypto}
-        />
+        <FormGroup>
+          <label>Can the campaign be paid with Crypto currency?</label>
+          <Checkbox
+            name="crypto"
+            onChange={handleChangeCheck}
+            checked={formData.crypto}
+            sx={{
+              color: "blue",
+              "&.Mui-checked": {
+                color: "blue",
+              },
+            }}
+          />
+        </FormGroup>
         <label>Language</label>
         <select
           name="language"
@@ -145,10 +169,10 @@ export const Form = ({
           <option value="Spanish">Spanish</option>
           <option value="Japanese">Japanese</option>
         </select>
-        <button type="submit" name="button" className="button">
+        <Button type="submit" name="button" variant="contained">
           Add campaign
-        </button>
-      </div>
+        </Button>
+      </Stack>
     </form>
   );
-}
+};
