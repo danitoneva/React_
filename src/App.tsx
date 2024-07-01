@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { Form } from "./Form";
-import {Table} from "./Table";
-import { INewData } from "./Interface";
+import {TableCampaign} from "./Table";
+import { INewData } from "./interface";
 
 export default function App() {
   const [campaigns, setCampaigns] = useState<INewData[]>([]);
@@ -15,7 +15,7 @@ export default function App() {
     <div>
       <h1>Gameinfluencer marketing campaign</h1>
       <Form addCampaign={addCampaign} />
-      <Table campaigns={campaigns} />
+      <TableCampaign campaigns={campaigns} />
     </div>
   );
 }

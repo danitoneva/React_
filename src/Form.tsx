@@ -87,9 +87,9 @@ export const Form = ({
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{ maxWidth: 500, mx: "auto", p: 1 }}
+      sx={{ maxWidth: 500, margin: "auto", p: 1 }}
     >
-      <Stack spacing={3}>
+      <Stack spacing={2}>
         <Typography
           sx={{
             textAlign: "center",
