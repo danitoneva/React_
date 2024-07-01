@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import { FormControlLabel, Checkbox, FormGroup } from "@mui/material";
+import { Button, Stack, Checkbox, FormGroup } from "@mui/material";
 
 export const Form = ({
   addCampaign,
@@ -29,16 +27,19 @@ export const Form = ({
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setFormData((formData) => ({
-      ...formData,
-      [event.target.name]: event.target.value,
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
     }));
   };
 
-  const handleChangeCheck = (event: {
-    target: { name: any; checked: any };
-  }) => {
-    setFormData({ ...formData, [event.target.name]: event.target.checked });
+  const handleChangeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: checked,
+    }));
   };
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
