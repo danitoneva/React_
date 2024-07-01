@@ -1,5 +1,16 @@
 import React, { useState } from "react";
-import { Button, Stack, Checkbox, FormGroup } from "@mui/material";
+import {
+  Button,
+  Stack,
+  Checkbox,
+  TextField,
+  FormControl,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+  Box,
+  Typography,
+} from "@mui/material";
 
 export const Form = ({
   addCampaign,
@@ -25,12 +36,18 @@ export const Form = ({
   });
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
+    setFormData((formData) => ({
+      ...formData,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    setFormData((formData) => ({
+      ...formData,
+      [event.target.name]: event.target.value,
     }));
   };
 
@@ -67,113 +84,248 @@ export const Form = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="inputContent">
-      <Stack
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        sx={{ mb: 10 }}
-      >
-        <label>Campaign name (up to 20 characters)</label>
-        <input
-          name="name"
-          maxLength={20}
-          onChange={handleChange}
-          value={formData.name}
-          required
-        />
-        <label>Campaign description (up to 200 characters)</label>
-        <input
-          name="description"
-          maxLength={200}
-          onChange={handleChange}
-          value={formData.description}
-          required
-        />
-        <label>Campaing Game</label>
-        <select
-          name="game"
-          onChange={handleChange}
-          value={formData.game}
-          required
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{ maxWidth: 500, mx: "auto", p: 1 }}
+    >
+      <Stack spacing={3}>
+        <Typography
+          sx={{
+            textAlign: "center",
+            fontSize: "21px",
+            fontFamily:
+              "Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif",
+          }}
         >
-          <option value="League of Legends">League of Legends</option>
-          <option value="DOTA 2">DOTA 2</option>
-          <option value="Minecraft">Minecraft</option>
-          <option value="Fortnite">Fortnite</option>
-          <option value="Apex Legends">Apex Legends</option>
-          <option value="Other">Other</option>
-        </select>
+          Campaign name (up to 20 characters)
+        </Typography>
+        <TextField
+          name="name"
+          value={formData.name}
+          variant="filled"
+          onChange={handleChange}
+          inputProps={{ maxLength: 20 }}
+          fullWidth
+          required
+          size="small"
+          InputProps={{
+            sx: {
+              textAlign: "center",
+              fontSize: "20px",
+              fontFamily:
+                "Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif",
+            },
+          }}
+        />
+        <Typography
+          sx={{
+            textAlign: "center",
+            fontSize: "21px",
+            fontFamily:
+              "Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif",
+          }}
+        >
+          Campaign description (up to 200 characters)
+        </Typography>
+        <TextField
+          name="description"
+          value={formData.description}
+          variant="filled"
+          onChange={handleChange}
+          inputProps={{ maxLength: 200 }}
+          fullWidth
+          required
+          size="small"
+          InputProps={{
+            sx: {
+              textAlign: "center",
+              fontSize: "20px",
+              fontFamily:
+                "Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif",
+            },
+          }}
+        />
+        <Typography
+          sx={{
+            textAlign: "center",
+            fontSize: "21px",
+            fontFamily:
+              "Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif",
+          }}
+        >
+          Campaign game
+        </Typography>
+        <FormControl variant="filled" fullWidth required>
+          <Select
+            name="game"
+            value={formData.game}
+            onChange={handleSelectChange}
+            size="small"
+            sx={{
+              textAlign: "center",
+              fontSize: "20px",
+              fontFamily:
+                "Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif",
+            }}
+          >
+            <MenuItem value="League of Legends">League of Legends</MenuItem>
+            <MenuItem value="DOTA 2">DOTA 2</MenuItem>
+            <MenuItem value="Minecraft">Minecraft</MenuItem>
+            <MenuItem value="Fortnite">Fortnite</MenuItem>
+            <MenuItem value="Apex Legends">Apex Legends</MenuItem>
+            <MenuItem value="Other">Other</MenuItem>
+          </Select>
+        </FormControl>
         {formData.game === "Other" && (
-          <label
-            id="otherGame"
-            className={formData.game === "Other" ? "" : "hidden"}
+          <Typography
+            sx={{
+              textAlign: "center",
+              fontSize: "21px",
+              fontFamily:
+                "Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif",
+            }}
           >
             Other game
-            <input
-              name="otherGame"
-              onChange={handleChange}
-              value={formData.otherGame}
-              required
-            />
-          </label>
+          </Typography>
         )}
-        <label>Start date</label>
-        <input
-          type="date"
-          name="startDate"
-          onChange={handleChange}
-          value={formData.startDate}
-          required
-        />
-        <label>End date</label>
-        <input
-          type="date"
-          name="endDate"
-          onChange={handleChange}
-          value={formData.endDate}
-          required
-        />
-        <label>Campaign budget(up tp 10 000 dollars)</label>
-        <input
-          type="number"
-          name="budget"
-          min={1}
-          max={10000}
-          onChange={handleChange}
-          value={formData.budget}
-          required
-        />
-        <FormGroup>
-          <label>Can the campaign be paid with Crypto currency?</label>
-          <Checkbox
-            name="crypto"
-            onChange={handleChangeCheck}
-            checked={formData.crypto}
-            sx={{
-              color: "blue",
-              "&.Mui-checked": {
-                color: "blue",
+        {formData.game === "Other" && (
+          <TextField
+            name="otherGame"
+            value={formData.otherGame}
+            variant="filled"
+            onChange={handleChange}
+            fullWidth
+            required
+            size="small"
+            InputProps={{
+              sx: {
+                textAlign: "center",
+                fontSize: "20px",
+                fontFamily:
+                  "Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif",
               },
             }}
           />
-        </FormGroup>
-        <label>Language</label>
-        <select
-          name="language"
-          onChange={handleChange}
-          value={formData.language}
-          required
+        )}
+        <Typography
+          sx={{
+            textAlign: "center",
+            fontSize: "21px",
+            fontFamily:
+              "Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif",
+          }}
         >
-          <option value="English">English</option>
-          <option value="German">German</option>
-          <option value="Spanish">Spanish</option>
-          <option value="Japanese">Japanese</option>
-        </select>
+          Start date
+        </Typography>
+        <TextField
+          type="date"
+          name="startDate"
+          value={formData.startDate}
+          variant="filled"
+          onChange={handleChange}
+          fullWidth
+          required
+          size="small"
+          InputProps={{
+            sx: {
+              textAlign: "center",
+              fontSize: "18px",
+            },
+          }}
+        />
+        <Typography
+          sx={{
+            textAlign: "center",
+            fontSize: "21px",
+            fontFamily:
+              "Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif",
+          }}
+        >
+          End date
+        </Typography>
+        <TextField
+          type="date"
+          name="endDate"
+          value={formData.endDate}
+          variant="filled"
+          onChange={handleChange}
+          fullWidth
+          required
+          size="small"
+          InputProps={{
+            sx: {
+              textAlign: "center",
+              fontSize: "18px",
+            },
+          }}
+        />
+        <Typography
+          sx={{
+            textAlign: "center",
+            fontSize: "21px",
+            fontFamily:
+              "Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif",
+          }}
+        >
+          Campaign budget(up tp 10 000 dollars)
+        </Typography>
+        <TextField
+          type="number"
+          name="budget"
+          value={formData.budget}
+          variant="filled"
+          onChange={handleChange}
+          inputProps={{ min: 1, max: 10000 }}
+          fullWidth
+          required
+          size="small"
+        />
+        <Typography
+          sx={{
+            textAlign: "center",
+            fontSize: "21px",
+            fontFamily:
+              "Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif",
+          }}
+        >
+          Can the campaign be paid with Crypto currency?
+        </Typography>
+        <Checkbox
+          name="crypto"
+          onChange={handleChangeCheck}
+          checked={formData.crypto}
+          sx={{
+            color: "blue",
+            "&.Mui-checked": {
+              color: "blue",
+            },
+          }}
+        />
+        <FormControl variant="filled" fullWidth required>
+          <Select
+            name="language"
+            value={formData.language}
+            onChange={handleSelectChange}
+            size="small"
+            sx={{
+              textAlign: "center",
+              fontSize: "20px",
+              fontFamily:
+                "Gill Sans, Gill Sans MT, Calibri, Trebuchet MS, sans-serif",
+            }}
+          >
+            <MenuItem value="English">English</MenuItem>
+            <MenuItem value="German">German</MenuItem>
+            <MenuItem value="Spanish">Spanish</MenuItem>
+            <MenuItem value="Japanese">Japanese</MenuItem>
+          </Select>
+        </FormControl>
+
         <Button type="submit" name="button" variant="contained">
           Add campaign
         </Button>
       </Stack>
-    </form>
+    </Box>
   );
 };
